@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">ScoreCounter</string>
+
+
+<!--  TENNIS  -->
+    <string-array name="tennisPoints">
+        <item>0</item>
+        <item>15</item>
+        <item>30</item>
+        <item>40</item>
+        <item>AD</item>
+        <item>W</item>
+    </string-array>
+
 </resources>
