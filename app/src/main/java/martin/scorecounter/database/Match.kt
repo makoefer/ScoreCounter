@@ -1,0 +1,34 @@
+package martin.scorecounter.database
+
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+
+@Entity(tableName = "matches")
+data class Match(
+
+    @PrimaryKey(autoGenerate = true) var id: Long,
+
+    @ColumnInfo(name = "Match Type") var type: String,
+
+    @ColumnInfo(name = "Player 1") @TypeConverters(PlayerConverter::class) var p1: Player,
+
+    @ColumnInfo(name = "Player 2") @TypeConverters(PlayerConverter::class) var p2: Player,
+
+    @ColumnInfo(name = "Player 1-2") @TypeConverters(PlayerConverter::class) var p12: Player? = null,
+
+    @ColumnInfo(name = "Player 2-2") @TypeConverters(PlayerConverter::class) var p22: Player? = null,
+
+    @ColumnInfo(name = "First serving player") var firstServe: String,
+
+    @ColumnInfo(name = "Nr of sets to win")var setsToWin: Int,
+
+    @ColumnInfo(name = "Match Tie Break")var matchTieBreak: Boolean,
+
+    @ColumnInfo(name = "finished")var finished: Boolean,
+
+    @TypeConverters(SetConverter::class)
+    var sets: List<Set>
+
+)
