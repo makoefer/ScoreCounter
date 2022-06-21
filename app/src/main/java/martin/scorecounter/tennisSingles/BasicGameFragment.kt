@@ -46,43 +46,38 @@ class BasicGameFragment: Fragment() {
         binding.btnPointMe.setOnClickListener{
             pointsMe++
             Log.d(TAG, "P1 scored, ${points[pointsMe]}:${points[pointsYou]}")
-
-
-            if (points[pointsMe] == "AD" && points[pointsYou] == "AD"){
-                pointsMe--
-                pointsYou--
-            } else if ((points[pointsMe] == "AD" && points[pointsYou] != "40") || points[pointsMe] == "W"){
-                gamesMe++
-                pointsMe = 0
-                pointsYou = 0
-            }
-
+            checkAd()
             updateTextViews()
         }
 
         binding.btnPointYou.setOnClickListener{
             pointsYou++
             Log.d(TAG, "P2 scored, ${points[pointsMe]}:${points[pointsYou]}")
-
-            if (points[pointsYou] == "AD" && points[pointsMe] == "AD"){
-                pointsMe--
-                pointsYou--
-            } else if ((points[pointsYou] == "AD" && points[pointsMe] != "40") || points[pointsYou] == "W"){
-                gamesYou++
-                pointsMe = 0
-                pointsYou = 0
-            }
-
+            checkAd()
             updateTextViews()
-
         }
 
         runBlocking {
-            databaseAccessTesting()
+           // databaseAccessTesting()
         }
 
 
         return binding.root
+    }
+
+    private fun checkAd() {
+        if (points[pointsMe] == "AD" && points[pointsYou] == "AD"){
+            pointsMe--
+            pointsYou--
+        } else if ((points[pointsMe] == "AD" && points[pointsYou] != "40") || points[pointsMe] == "W"){
+            gamesMe++
+            pointsMe = 0
+            pointsYou = 0
+        } else if ((points[pointsYou] == "AD" && points[pointsMe] != "40") || points[pointsYou] == "W"){
+            gamesYou++
+            pointsMe = 0
+            pointsYou = 0
+        }
     }
 
     private fun updateTextViews() {
