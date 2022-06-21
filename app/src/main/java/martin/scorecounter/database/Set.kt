@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import java.util.*
 
 @Entity(foreignKeys = [ForeignKey(
     entity = Match::class,
@@ -29,4 +30,7 @@ data class Set(
 
     var match: Long
 
-)
+){
+    constructor(setNumber: Int, match:Long):
+            this(0, setNumber, 0,0,"", Collections.emptyList(), match)
+}

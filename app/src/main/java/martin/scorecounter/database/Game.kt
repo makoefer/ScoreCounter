@@ -30,4 +30,7 @@ data class Game(
     var finished: Boolean,
 
     var set: Long
-)
+){
+    constructor(gameNumber: Int, servingPlayer: String, set: Long):
+            this(0, gameNumber, "0", "0", servingPlayer, "", "", false, set)
+}
