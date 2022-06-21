@@ -27,6 +27,9 @@ class BasicGameFragment: Fragment() {
     var pointsMe: Int = 0
     var pointsYou: Int = 0
 
+    var gamesMe: Int = 0
+    var gamesYou: Int = 0
+
     var playerDao = MainActivity.playerDao
     var scoreDao = MainActivity.scoreDao
 
@@ -34,19 +37,44 @@ class BasicGameFragment: Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         _binding = FragmentTennisSinglesBasicgameBinding.inflate(inflater, container, false)
-
         points = resources.getStringArray(R.array.tennisPoints)
+
+        binding.tvNameMe.text = if (arguments?.getString("nameMe") == "") "Player 1" else arguments?.getString("nameMe")
+        binding.tvNameYou.text = if (arguments?.getString("nameYou") == "") "Player 2" else arguments?.getString("nameYou")
+
 
         binding.btnPointMe.setOnClickListener{
             pointsMe++
             Log.d(TAG, "P1 scored, ${points[pointsMe]}:${points[pointsYou]}")
-            binding.tvPointsMe.text = points[pointsMe]
+
+
+            if (points[pointsMe] == "AD" && points[pointsYou] == "AD"){
+                pointsMe--
+                pointsYou--
+            } else if ((points[pointsMe] == "AD" && points[pointsYou] != "40") || points[pointsMe] == "W"){
+                gamesMe++
+                pointsMe = 0
+                pointsYou = 0
+            }
+
+            updateTextViews()
         }
 
         binding.btnPointYou.setOnClickListener{
             pointsYou++
             Log.d(TAG, "P2 scored, ${points[pointsMe]}:${points[pointsYou]}")
-            binding.tvPointsYou.text = points[pointsYou]
+
+            if (points[pointsYou] == "AD" && points[pointsMe] == "AD"){
+                pointsMe--
+                pointsYou--
+            } else if ((points[pointsYou] == "AD" && points[pointsMe] != "40") || points[pointsYou] == "W"){
+                gamesYou++
+                pointsMe = 0
+                pointsYou = 0
+            }
+
+            updateTextViews()
+
         }
 
         runBlocking {
@@ -55,6 +83,13 @@ class BasicGameFragment: Fragment() {
 
 
         return binding.root
+    }
+
+    private fun updateTextViews() {
+        binding.tvPointsMe.text = points[pointsMe]
+        binding.tvGamesMe.text = gamesMe.toString()
+        binding.tvPointsYou.text = points[pointsYou]
+        binding.tvGamesYou.text = gamesYou.toString()
     }
 
     private suspend fun databaseAccessTesting() {

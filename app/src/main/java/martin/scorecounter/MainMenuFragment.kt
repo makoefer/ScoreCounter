@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import martin.scorecounter.databinding.FragmentMainMenuBinding
 import martin.scorecounter.tennisSingles.BasicGameFragment
+import martin.scorecounter.tennisSingles.TennisSinglesSettingsFragment
 
 class MainMenuFragment: Fragment() {
 
@@ -20,7 +21,7 @@ class MainMenuFragment: Fragment() {
 
         binding.btnMmTennisSingles.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.linearLayout, BasicGameFragment())
+                .replace(R.id.linearLayout, TennisSinglesSettingsFragment())
                 .addToBackStack(null)
                 .commit()
         }
