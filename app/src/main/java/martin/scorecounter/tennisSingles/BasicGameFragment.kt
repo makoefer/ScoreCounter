@@ -58,11 +58,11 @@ class BasicGameFragment: Fragment() {
     }
 
     private suspend fun databaseAccessTesting() {
-        playerDao.insertPlayer(Player(0, "Martin"))
-        playerDao.insertPlayer(Player(0, "Laura"))
+        playerDao.insertPlayer(Player("Martin", "Köfer"))
+        playerDao.insertPlayer(Player("Laura"))
         Log.d(TAG, playerDao.getAllPlayers().toString())
 
-        scoreDao.insertMatch(Match(0,"Tennis", playerDao.getAllPlayers()[0], playerDao.getAllPlayers()[1], null,null, "p1", 2, true, false, Collections.emptyList()))
+        scoreDao.insertMatch(Match(0,"Tennis", playerDao.getPlayerByName("Martin", "Köfer"), playerDao.getPlayerByName("Laura", ""), null,null, "p1", 2, true, false, Collections.emptyList()))
         Log.d(TAG, scoreDao.getAllMatches().toString())
 
         scoreDao.insertSet(Set(0, 1, 2,1, "", Collections.emptyList(), 1))

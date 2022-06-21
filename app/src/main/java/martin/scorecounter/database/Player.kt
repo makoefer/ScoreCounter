@@ -8,9 +8,11 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "players")
 data class Player(
 
-    @PrimaryKey(autoGenerate = true)
-    var id: Long,
+    @PrimaryKey(autoGenerate = true) var id: Long,
 
-    @ColumnInfo(name = "name")
-    var name: String
-)
+    @ColumnInfo(name = "firstName") var firstName: String,
+    @ColumnInfo(name = "lastName") var lastName: String
+) {
+    constructor(name: String):this(0, name, "")
+    constructor(fname: String, lname:String):this(0, fname, lname)
+}
