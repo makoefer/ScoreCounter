@@ -119,4 +119,22 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tv_games_me"
         app:layout_constraintTop_toTopOf="@+id/tv_games_me" />
+
+    <TextView
+        android:id="@+id/tv_sets_me"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="0"
+        app:layout_constraintBottom_toTopOf="@+id/tv_name_me"
+        app:layout_constraintEnd_toEndOf="@+id/tv_name_me" />
+
+    <TextView
+        android:id="@+id/tv_sets_you"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="0"
+        app:layout_constraintBottom_toTopOf="@+id/tv_name_you"
+        app:layout_constraintStart_toStartOf="@+id/tv_name_you" />
 </androidx.constraintlayout.widget.ConstraintLayout>
