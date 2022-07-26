@@ -1,5 +1,6 @@
 package martin.scorecounter.tennis
 
+
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
@@ -18,16 +19,16 @@ import martin.scorecounter.database.Game
 import martin.scorecounter.database.Match
 import martin.scorecounter.database.Player
 import martin.scorecounter.database.Set
-import martin.scorecounter.databinding.FragmentTennisSinglesGameBinding
+import martin.scorecounter.databinding.FragmentTennisDoublesGameBinding
 import martin.scorecounter.enums.TennisGamePhases
 import java.util.*
 
 
-class TennisSinglesGameFragment: Fragment() {
+class TennisDoublesGameFragment: Fragment() {
 
-    private val TAG: String = "TENNIS SINGLES GAME"
+    private val TAG: String = "TENNIS DOUBLES GAME"
 
-    private var _binding: FragmentTennisSinglesGameBinding? = null
+    private var _binding: FragmentTennisDoublesGameBinding? = null
     private val binding get() = _binding!!
 
     lateinit var gamePhase: TennisGamePhases
@@ -55,21 +56,30 @@ class TennisSinglesGameFragment: Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        _binding = FragmentTennisSinglesGameBinding.inflate(inflater, container, false)
+        _binding = FragmentTennisDoublesGameBinding.inflate(inflater, container, false)
 
         var p1Name: String? = if (arguments?.getString("p1name") != "") arguments?.getString("p1name") else "Player 1"
         var p2Name: String? = if (arguments?.getString("p2name") != "") arguments?.getString("p2name") else "Player 2"
+        var p12Name: String? = if (arguments?.getString("p12name") != "") arguments?.getString("p12name") else "Player 1-2"
+        var p22Name: String? = if (arguments?.getString("p22name") != "") arguments?.getString("p22name") else "Player 2-2"
 
-        binding.p1Name.text = p1Name
-        binding.p2Name.text = p2Name
-        if (p1Name!!.length > 10){
-            p1Name = p1Name.subSequence(0,10).toString() + "."
+        binding.p1Name.text = "$p1Name/$p12Name"
+        binding.p2Name.text = "$p2Name/$p22Name"
+
+        if (p1Name!!.length > 3){
+            p1Name = p1Name.subSequence(0,3).toString()
         }
-        if (p2Name!!.length > 10){
-            p2Name = p2Name.subSequence(0,10).toString() + "."
+        if (p12Name!!.length > 3){
+            p12Name = p12Name.subSequence(0,3).toString()
         }
-        binding.p1NameBig.text = p1Name
-        binding.p2NameBig.text = p2Name
+        if (p2Name!!.length > 3){
+            p2Name = p2Name.subSequence(0,3).toString()
+        }
+        if (p22Name!!.length > 3){
+            p22Name = p22Name.subSequence(0,3).toString()
+        }
+        binding.p1NameBig.text = "$p1Name./$p12Name."
+        binding.p2NameBig.text = "$p2Name./$p22Name."
 
 
         firstServeP1 = arguments?.getString("firstServe") == "Player 1"
@@ -128,7 +138,7 @@ class TennisSinglesGameFragment: Fragment() {
 
                 if (currentMatch.finished){
 
-                    Toast.makeText(context, "Player ${currentMatch.matchWinner} is the match winner!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Team ${currentMatch.matchWinner} is the match winner!", Toast.LENGTH_SHORT).show()
                     finished = true
 
                     requireActivity().supportFragmentManager.beginTransaction()
@@ -195,7 +205,7 @@ class TennisSinglesGameFragment: Fragment() {
         p2LL.visibility = TextView.VISIBLE
         var p2Color = resources.getColor(R.color.tgrey)
         if (currentGame.p2BreakPoint){p2Color = resources.getColor(R.color.tbreak)}
-            else if (byPlayer == 2){p2Color = resources.getColor(R.color.tblack)}
+        else if (byPlayer == 2){p2Color = resources.getColor(R.color.tblack)}
         p2LL.setTextColor(p2Color)
     }
 
@@ -324,49 +334,49 @@ class TennisSinglesGameFragment: Fragment() {
         llv1.orientation = LinearLayout.VERTICAL
         llv1.layoutParams = llparams
 
-            var llh1 = LinearLayout(context)
-            llh1.orientation = LinearLayout.HORIZONTAL
-            llh1.layoutParams = llparams2
+        var llh1 = LinearLayout(context)
+        llh1.orientation = LinearLayout.HORIZONTAL
+        llh1.layoutParams = llparams2
 
-                var tv1 = TextView(context)
-                tv1.text = "1"
-                tv1.textSize = 17F
-                tv1.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
-                tv1.visibility = TextView.INVISIBLE
-                tv1.layoutParams = tvparams
-                llh1.addView(tv1)
+        var tv1 = TextView(context)
+        tv1.text = "1"
+        tv1.textSize = 17F
+        tv1.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+        tv1.visibility = TextView.INVISIBLE
+        tv1.layoutParams = tvparams
+        llh1.addView(tv1)
 
-                if(serve){
-                    var iv1 = ImageView(context)
-                    iv1.scaleX = 0.6F
-                    iv1.scaleY = 0.6F
-                    iv1.layoutParams = ivparams
-                    iv1.setImageResource(R.mipmap.tennisball)
-                    llh1.addView(iv1)
-                }
+        if(serve){
+            var iv1 = ImageView(context)
+            iv1.scaleX = 0.6F
+            iv1.scaleY = 0.6F
+            iv1.layoutParams = ivparams
+            iv1.setImageResource(R.mipmap.tennisball)
+            llh1.addView(iv1)
+        }
 
         llv1.addView(llh1)
 
-            var llh2 = LinearLayout(context)
-            llh2.orientation = LinearLayout.HORIZONTAL
-            llh2.layoutParams = llparams2
+        var llh2 = LinearLayout(context)
+        llh2.orientation = LinearLayout.HORIZONTAL
+        llh2.layoutParams = llparams2
 
-                var tv2 = TextView(context)
-                tv2.text = "0"
-                tv2.textSize = 17F
-                tv2.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
-                tv2.visibility = TextView.INVISIBLE
-                tv2.layoutParams = tvparams
-                llh2.addView(tv2)
+        var tv2 = TextView(context)
+        tv2.text = "0"
+        tv2.textSize = 17F
+        tv2.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+        tv2.visibility = TextView.INVISIBLE
+        tv2.layoutParams = tvparams
+        llh2.addView(tv2)
 
-                if(!serve){
-                    var iv2 = ImageView(context)
-                    iv2.scaleX = 0.6F
-                    iv2.scaleY = 0.6F
-                    iv2.layoutParams = ivparams
-                    iv2.setImageResource(R.mipmap.tennisball)
-                    llh2.addView(iv2)
-                }
+        if(!serve){
+            var iv2 = ImageView(context)
+            iv2.scaleX = 0.6F
+            iv2.scaleY = 0.6F
+            iv2.layoutParams = ivparams
+            iv2.setImageResource(R.mipmap.tennisball)
+            llh2.addView(iv2)
+        }
 
         llv1.addView(llh2)
 
