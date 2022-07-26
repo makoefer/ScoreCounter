@@ -77,11 +77,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:checkedButton="@id/rb_ts_setstowin2"
-        android:divider="@drawable/rb_group_divider"
+        android:divider="@drawable/divider"
         android:orientation="horizontal"
         android:showDividers="middle"
         app:layout_constraintStart_toStartOf="@+id/ti_ts_player2"
-        app:layout_constraintTop_toBottomOf="@+id/ti_ts_player2">
+        app:layout_constraintTop_toBottomOf="@+id/rg_ts_firstserve">
 
         <RadioButton
             android:id="@+id/rb_ts_setstowin1"
@@ -130,5 +130,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sw_matchTieBreak" />
 
+    <TextView
+        android:id="@+id/lbl_ts_firrstserve"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/rg_ts_firstserve"
+        android:text="First Serve:"
+        app:layout_constraintBottom_toTopOf="@+id/rg_ts_firstserve"
+        app:layout_constraintStart_toStartOf="@+id/rg_ts_firstserve" />
+
+    <RadioGroup
+        android:id="@+id/rg_ts_firstserve"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:divider="@drawable/divider"
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        android:checkedButton="@id/rb_ts_firstserveP1"
+        app:layout_constraintStart_toStartOf="@+id/ti_ts_player2"
+        app:layout_constraintTop_toBottomOf="@+id/ti_ts_player2">
+
+        <RadioButton
+            android:id="@+id/rb_ts_firstserveP1"
+            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:text="Player 1"
+            android:layout_marginHorizontal="5dp"
+            android:textSize="14sp"/>
+
+        <RadioButton
+            android:id="@+id/rb_ts_firstserveP2"
+            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:text="Player 2"
+            android:layout_marginHorizontal="5dp"
+            android:textSize="14sp"/>
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

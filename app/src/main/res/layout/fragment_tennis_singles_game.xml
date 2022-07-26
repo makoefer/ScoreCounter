@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/game_score_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/scoresheet_background"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/p1_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:text="Martin"
+                    android:textSize="17sp"/>
+
+                <TextView
+                    android:id="@+id/p2_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:text="Laura"
+                    android:textSize="17sp"/>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/scoresheet_background_white"
+            android:minWidth="50dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/spacing1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textAlignment="center"
+
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:id="@+id/p1_serving_symbol"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:visibility="visible"
+                    app:srcCompat="@mipmap/tennisball" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/spacing2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textAlignment="center"
+
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:id="@+id/p2_serving_symbol"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:visibility="gone"
+                    app:srcCompat="@mipmap/tennisball" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:background="@drawable/scoresheet_background"
+            android:minWidth="40dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/p1_points"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="40"
+                android:textAlignment="center"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/p2_points"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="15"
+                android:textAlignment="center"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_name_me"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Player 1"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_points_me"
+        app:layout_constraintEnd_toStartOf="@+id/tv_points_me"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_points_me" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_points_you"
+        app:layout_constraintEnd_toStartOf="@+id/tv_points_me"
+        app:layout_constraintTop_toTopOf="@+id/tv_points_you">
+
+
+        <ImageView
+            android:id="@+id/p1_serving_symbol1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:visibility="visible"
+            app:srcCompat="@mipmap/tennisball" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_points_me"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="0"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_points_you"
+        app:layout_constraintEnd_toStartOf="@+id/tv_colon" />
+
+    <TextView
+        android:id="@+id/tv_colon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text=":"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_points_you"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_points_you" />
+
+    <TextView
+        android:id="@+id/tv_name_you"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Player 2"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_points_you"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_points_you"
+        app:layout_constraintTop_toTopOf="@+id/tv_points_you" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_points_you"
+        app:layout_constraintStart_toEndOf="@+id/tv_points_you"
+        app:layout_constraintTop_toTopOf="@+id/tv_points_you">
+
+
+        <ImageView
+            android:id="@+id/p2_serving_symbol1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:visibility="invisible"
+            app:srcCompat="@mipmap/tennisball" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_points_you"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="0"
+        android:textSize="34sp"
+        app:layout_constraintStart_toEndOf="@+id/tv_colon"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+
+    <Button
+        android:id="@+id/btn_pointP1"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:text="Point"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_pointP2"
+        app:layout_constraintEnd_toStartOf="@+id/btn_pointP2"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_pointP2"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="50dp"
+        android:text="Point"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_pointP1" />
+
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsv_pointHistory"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginTop="10dp"
+        android:fillViewport="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_points_you">
+
+        <LinearLayout
+            android:id="@+id/ll_pointHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

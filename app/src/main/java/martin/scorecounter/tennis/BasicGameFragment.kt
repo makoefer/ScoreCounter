@@ -1,4 +1,4 @@
-package martin.scorecounter.tennisSingles
+package martin.scorecounter.tennis
 
 import android.os.Bundle
 import android.util.Log
@@ -22,7 +22,7 @@ class BasicGameFragment: Fragment() {
 
     private val TAG: String = "TENNIS BASIC SINGLES"
 
-    private var _binding: FragmentTennisSinglesBasicgameBinding? = null
+    private var _binding: martin.scorecounter.databinding.FragmentTennisSinglesBasicgameBinding? = null
     private val binding get() = _binding!!
 
     lateinit var points: Array<String>

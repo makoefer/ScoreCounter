@@ -1,12 +1,12 @@
-package martin.scorecounter.tennisSingles
+package martin.scorecounter.tennis
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
 import androidx.fragment.app.Fragment
 import martin.scorecounter.R
-import martin.scorecounter.databinding.FragmentTennisSinglesBasicgameBinding
 import martin.scorecounter.databinding.FragmentTennisSinglesSettingsBinding
 
 class TennisSinglesSettingsFragment: Fragment() {
@@ -27,8 +27,13 @@ class TennisSinglesSettingsFragment: Fragment() {
             val bundle = Bundle()
             bundle.putString("nameMe", binding.tiTsPlayer1.text.toString())
             bundle.putString("nameYou", binding.tiTsPlayer2.text.toString())
+            var rB = activity?.findViewById<RadioButton>(binding.rgTsSetsToWin.checkedRadioButtonId)
+            bundle.putString("numberOfSets", (rB?.text as String?))
+            var rB2 = activity?.findViewById<RadioButton>(binding.rgTsFirstserve.checkedRadioButtonId)
+            bundle.putString("firstServe", (rB2?.text as String?))
+            bundle.putBoolean("matchTieBreak", binding.swMatchTieBreak.isChecked)
 
-            val bgf = BasicGameFragment()
+            val bgf = TennisSinglesGameFragment()
             bgf.arguments = bundle
 
             requireActivity().supportFragmentManager.beginTransaction()

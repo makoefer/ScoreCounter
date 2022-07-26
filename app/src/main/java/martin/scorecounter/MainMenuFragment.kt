@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import martin.scorecounter.databinding.FragmentMainMenuBinding
-import martin.scorecounter.tennisSingles.BasicGameFragment
-import martin.scorecounter.tennisSingles.TennisSinglesSettingsFragment
+import martin.scorecounter.tennis.TennisSinglesSettingsFragment
 
 class MainMenuFragment: Fragment() {
 
