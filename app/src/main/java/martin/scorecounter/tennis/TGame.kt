@@ -35,11 +35,11 @@ class TGame constructor(gameNr: Int, p1Serving: Boolean, tiebreak: Boolean, matc
                 p1Points--; p2Points--
             } else if ((points[p1Points] == "AD" && points[p2Points] != "40") || points[p1Points] == "W"){
                 gameWinner = 1
-
+                p1Points = 5
                 finished = true
             } else if ((points[p2Points] == "AD" && points[p1Points] != "40") || points[p2Points] == "W"){
                 gameWinner = 2
-
+                p2Points = 5
                 finished = true
             }
             lastPoint = TPoint(points[p1Points], points[p2Points])

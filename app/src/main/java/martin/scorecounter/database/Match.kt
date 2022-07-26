@@ -13,27 +13,24 @@ data class Match(
 
     @ColumnInfo(name = "Match Type") var type: String,
 
-    @ColumnInfo(name = "Player 1") @TypeConverters(PlayerConverter::class) var p1: Player,
+    @ColumnInfo(name = "Player 1")  var p1name: String,
 
-    @ColumnInfo(name = "Player 2") @TypeConverters(PlayerConverter::class) var p2: Player,
+    @ColumnInfo(name = "Player 2") var p2name: String,
 
-    @ColumnInfo(name = "Player 1-2") @TypeConverters(PlayerConverter::class) var p12: Player? = null,
+    @ColumnInfo(name = "Player 1-2") var p12name: String? = null,
 
-    @ColumnInfo(name = "Player 2-2") @TypeConverters(PlayerConverter::class) var p22: Player? = null,
+    @ColumnInfo(name = "Player 2-2") var p22name: String? = null,
 
-    @ColumnInfo(name = "First serving player") var firstServe: String,
+    @ColumnInfo(name = "Player 1 serves first") var firstServeP1: Boolean,
 
-    @ColumnInfo(name = "Nr of sets to win")var setsToWin: Int,
+    @ColumnInfo(name = "Nr of sets to win") var setsToWin: Int,
 
-    @ColumnInfo(name = "Match Tie Break")var matchTieBreak: Boolean,
+    @ColumnInfo(name = "Match Tie Break") var matchTieBreak: Boolean,
 
-    @ColumnInfo(name = "finished")var finished: Boolean,
-
-    @TypeConverters(SetConverter::class)
-    var sets: List<Set>
+    @ColumnInfo(name = "finished") var finished: Boolean
 ){
-    constructor(type: String, p1: Player, p2: Player, firstServe: String, setsToWin: Int, matchTieBreak: Boolean):
-            this(0, type, p1, p2, null, null, firstServe, setsToWin, matchTieBreak, false, Collections.emptyList())
-    constructor(type: String, p1: Player, p2: Player, p12: Player, p22: Player, firstServe: String, setsToWin: Int, matchTieBreak: Boolean):
-            this(0, type, p1, p2, p12, p22, firstServe, setsToWin, matchTieBreak, false, Collections.emptyList())
+    constructor(type: String, p1name: String, p2name: String, firstServeP1: Boolean, setsToWin: Int, matchTieBreak: Boolean):
+            this(0, type, p1name, p2name, null, null, firstServeP1, setsToWin, matchTieBreak, false)
+    constructor(type: String, p1name: String, p2name: String, p12name: String, p22name: String, firstServeP1: Boolean, setsToWin: Int, matchTieBreak: Boolean):
+            this(0, type, p1name, p2name, p12name, p22name, firstServeP1, setsToWin, matchTieBreak, false)
 }

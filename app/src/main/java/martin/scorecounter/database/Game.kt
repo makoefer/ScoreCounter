@@ -15,22 +15,19 @@ data class Game(
     @PrimaryKey(autoGenerate = true)
     var id: Long,
 
-    var gameNubmer: Int,
+    var gameNumber: Int,
 
     var p1Points: String,
 
     var p2Points: String,
 
-    var servingPlayer: String,
+    var servingPlayerP1: Boolean,
 
-    var gameWinner: String,
+    var gameWinner: Int,
 
     var pointsHistory: String,
 
     var finished: Boolean,
 
     var set: Long
-){
-    constructor(gameNumber: Int, servingPlayer: String, set: Long):
-            this(0, gameNumber, "0", "0", servingPlayer, "", "", false, set)
-}
+)

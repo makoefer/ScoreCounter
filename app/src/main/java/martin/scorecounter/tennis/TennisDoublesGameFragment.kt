@@ -3,7 +3,6 @@ package martin.scorecounter.tennis
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -17,11 +16,9 @@ import martin.scorecounter.MainMenuFragment
 import martin.scorecounter.R
 import martin.scorecounter.database.Game
 import martin.scorecounter.database.Match
-import martin.scorecounter.database.Player
 import martin.scorecounter.database.Set
 import martin.scorecounter.databinding.FragmentTennisDoublesGameBinding
 import martin.scorecounter.enums.TennisGamePhases
-import java.util.*
 
 
 class TennisDoublesGameFragment: Fragment() {
@@ -35,23 +32,24 @@ class TennisDoublesGameFragment: Fragment() {
     lateinit var points: Array<String>
 
     lateinit var currentMatch: TMatch
+    var dbCurrentMatchId: Long = 0
     lateinit var currentSet: TSet
+    var currentSetNumber: Int = 1
+    var dbCurrentSetId: Long = 0
     lateinit var currentGame: TGame
+    var currentGameNumber: Int = 1
     lateinit var currentPointHistoryLayout: LinearLayout
     lateinit var currentGameScoreLayout: LinearLayout
     lateinit var currentP1Games: TextView
     lateinit var currentP2Games: TextView
 
-    var playerDao = MainActivity.playerDao
     var scoreDao = MainActivity.scoreDao
 
-    var maxSets: Int = 2
+    var setsToWin: Int = 2
     var firstServeP1 = false
     var matchTieBreak = false
 
     var finished = false
-
-    lateinit var pointHistoryLayout: LinearLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -83,14 +81,14 @@ class TennisDoublesGameFragment: Fragment() {
 
 
         firstServeP1 = arguments?.getString("firstServe") == "Player 1"
-        maxSets = arguments?.getString("numberOfSets")?.toInt() ?: 2
+        setsToWin = arguments?.getString("numberOfSets")?.toInt() ?: 2
         matchTieBreak = arguments?.getBoolean("matchTieBreak") ?: false
 
         gamePhase = TennisGamePhases.TENNIS_NORMAL_GAME
         points = resources.getStringArray(R.array.tennisPoints)
 
 
-        currentMatch = TMatch("Singles", p1Name!!, p2Name!!, null, null, firstServeP1, maxSets, matchTieBreak)
+        currentMatch = TMatch("Singles", p1Name!!, p2Name!!, null, null, firstServeP1, setsToWin, matchTieBreak)
         currentSet = currentMatch.newSet()
         currentGame = currentSet.newGame()
 
@@ -111,7 +109,8 @@ class TennisDoublesGameFragment: Fragment() {
         }
 
         runBlocking {
-            // databaseAccessTesting()
+            dbNewMatch(p1Name,p2Name, p12Name, p22Name, firstServeP1, matchTieBreak, setsToWin)
+            dbNewSet(currentSetNumber)
         }
 
         return binding.root
@@ -124,12 +123,29 @@ class TennisDoublesGameFragment: Fragment() {
         if (currentGame.finished){
             currentSet.gameWon(byPlayer)
 
+            runBlocking{
+                if (!currentGame.tiebreak){
+                    dbGameWon(currentGameNumber, points[currentGame.p1Points], points[currentGame.p2Points],
+                        currentGame.p1Serving, byPlayer, currentGame.pointHistory.toString(), true, dbCurrentSetId)
+                } else {
+                    dbGameWon(currentGameNumber, currentGame.p1Points.toString(), currentGame.p2Points.toString(),
+                        currentGame.p1Serving, byPlayer, currentGame.pointHistory.toString(), true, dbCurrentSetId)
+                }
+                dbUpdateSet(dbCurrentSetId, currentSet.p1Games, currentSet.p2Games, 0)
+            }
+
+            currentGameNumber++
+
             currentP1Games.text = currentSet.p1Games.toString()
             currentP2Games.text = currentSet.p2Games.toString()
 
             if (currentSet.finished){
                 currentMatch.setWon(byPlayer, currentGame.p1Serving)
                 newPointHistoryDivider(currentSet.setNr.toString())
+
+                runBlocking {
+                    dbUpdateSet(dbCurrentSetId, currentSet.p1Games, currentSet.p2Games, currentSet.setWinner)
+                }
 
                 var p1color = if (currentSet.p1Games>currentSet.p2Games) resources.getColor(R.color.tblack) else resources.getColor(R.color.tgrey)
                 var p2color = if (currentSet.p2Games>currentSet.p1Games) resources.getColor(R.color.tblack) else resources.getColor(R.color.tgrey)
@@ -140,6 +156,10 @@ class TennisDoublesGameFragment: Fragment() {
 
                     Toast.makeText(context, "Team ${currentMatch.matchWinner} is the match winner!", Toast.LENGTH_SHORT).show()
                     finished = true
+
+                    runBlocking{
+                        dbUpdateMatch(dbCurrentMatchId, finished)
+                    }
 
                     requireActivity().supportFragmentManager.beginTransaction()
                         .replace(R.id.linearLayout, MainMenuFragment())
@@ -156,6 +176,9 @@ class TennisDoublesGameFragment: Fragment() {
                     currentGame = currentSet.getCurrentGame()
                     newPointHistoryGameLayout()
                     newGameScoreLayout()
+                    runBlocking {
+                        dbNewSet(currentSetNumber)
+                    }
                 }
             } else {
                 updatePointHistory(byPlayer)
@@ -445,24 +468,25 @@ class TennisDoublesGameFragment: Fragment() {
         parent.addView(llh, 0)
     }
 
-
-    private suspend fun databaseAccessTesting() {
-        playerDao.insertPlayer(Player("Martin", "Köfer"))
-        playerDao.insertPlayer(Player("Laura"))
-        Log.d(TAG, playerDao.getAllPlayers().toString())
-
-        scoreDao.insertMatch(Match(0,"Tennis", playerDao.getPlayerByName("Martin", "Köfer"), playerDao.getPlayerByName("Laura", ""), null,null, "p1", 2, true, false, Collections.emptyList()))
-        Log.d(TAG, scoreDao.getAllMatches().toString())
-
-        scoreDao.insertSet(Set(0, 1, 2,1, "", Collections.emptyList(), 1))
-        Log.d(TAG, scoreDao.getAllSets().toString())
-
-        scoreDao.insertGame(Game(0, 1, "0", "0", "p1","", "", false, 1))
-        Log.d(TAG, scoreDao.getAllGames().toString())
-        scoreDao.updateGame(Game(1, 1, "30", "15", "p1", "", "1234", false, 1))
-        Log.d(TAG, scoreDao.getAllGames().toString())
+    private suspend fun dbNewMatch(p1name: String, p2name: String, p12name:String, p22name: String, firstserveP1: Boolean, mtb: Boolean, stw: Int) {
+        dbCurrentMatchId = scoreDao.insertMatch(Match("Tennis-Doubles", p1name, p2name, p12name, p22name, firstserveP1, stw, mtb))
     }
 
+    private suspend fun dbNewSet(curSetNr: Int) {
+        dbCurrentSetId = scoreDao.insertSet(Set(curSetNr, dbCurrentMatchId))
+    }
+
+    private suspend fun dbGameWon(currentGameNumber: Int, p1Points: String, p2Points: String, p1Serving: Boolean, gameWinner: Int, pointHistory: String, finished: Boolean, setId: Long) {
+        scoreDao.insertGame(Game(0, currentGameNumber, p1Points, p2Points, p1Serving, gameWinner, pointHistory, finished, setId))
+    }
+
+    private suspend fun dbUpdateSet(dbSetId: Long, p1Games: Int, p2Games: Int, setWinner: Int){
+        scoreDao.updateSet(dbSetId, p1Games, p2Games, setWinner)
+    }
+
+    private suspend fun dbUpdateMatch(dbMatchId: Long, finished: Boolean){
+        scoreDao.updateMatch(dbMatchId, finished)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

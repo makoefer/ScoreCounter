@@ -23,14 +23,11 @@ data class Set(
 
     var p2Games: Int,
 
-    var setWinner: String,
-
-    @TypeConverters(GameConverter::class)
-    var games: List<Game>,
+    var setWinner: Int,
 
     var match: Long
 
 ){
     constructor(setNumber: Int, match:Long):
-            this(0, setNumber, 0,0,"", Collections.emptyList(), match)
+            this(0, setNumber, 0,0,0, match)
 }

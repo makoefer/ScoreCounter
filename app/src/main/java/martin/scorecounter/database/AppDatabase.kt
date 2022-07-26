@@ -8,14 +8,13 @@ import androidx.room.TypeConverters
 
 
 @Database(
-    entities = [Match::class, Set::class, Game::class, Player::class],
+    entities = [Match::class, Set::class, Game::class],
     version = AppDatabase.DB_VERSION
 )
-@TypeConverters(PlayerConverter::class, SetConverter::class, GameConverter::class)
+
 abstract class AppDatabase : RoomDatabase(){
 
     abstract fun scoreDao(): ScoreDao
-    abstract fun playerDao(): PlayerDao
 
     companion object {
         const val DB_VERSION = 1
