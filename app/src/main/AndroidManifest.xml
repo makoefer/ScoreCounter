@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/tennisball"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/tennisball"
         android:supportsRtl="true"
         android:theme="@style/Theme.ScoreCounter"
         android:screenOrientation="portrait">

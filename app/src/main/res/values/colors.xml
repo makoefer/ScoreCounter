@@ -13,4 +13,10 @@
     <color name="tbreak">#C39E2F</color>
     <color name="tmp">#4CAF50</color>
 
+    <color name="tblue">#35AAD3</color>
+    <color name="tblue_dark">#2E7794</color>
+
+    <color name="tblue_lighter">#4DB5DA</color>
+    <color name="tblue_light">#61B9D8</color>
+
 </resources>
