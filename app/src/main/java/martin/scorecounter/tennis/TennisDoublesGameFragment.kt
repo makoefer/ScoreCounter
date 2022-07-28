@@ -2,6 +2,7 @@ package martin.scorecounter.tennis
 
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Gravity
@@ -87,7 +88,6 @@ class TennisDoublesGameFragment: Fragment() {
         gamePhase = TennisGamePhases.TENNIS_NORMAL_GAME
         points = resources.getStringArray(R.array.tennisPoints)
 
-
         currentMatch = TMatch("Singles", p1Name!!, p2Name!!, null, null, firstServeP1, setsToWin, matchTieBreak)
         currentSet = currentMatch.newSet()
         currentGame = currentSet.newGame()
@@ -135,7 +135,6 @@ class TennisDoublesGameFragment: Fragment() {
             }
 
             currentGameNumber++
-
             currentP1Games.text = currentSet.p1Games.toString()
             currentP2Games.text = currentSet.p2Games.toString()
 
@@ -154,17 +153,23 @@ class TennisDoublesGameFragment: Fragment() {
 
                 if (currentMatch.finished){
 
-                    Toast.makeText(context, "Team ${currentMatch.matchWinner} is the match winner!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Team ${currentMatch.matchWinner} is the match winner!", Toast.LENGTH_LONG).show()
                     finished = true
 
                     runBlocking{
                         dbUpdateMatch(dbCurrentMatchId, finished)
                     }
 
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.linearLayout, MainMenuFragment())
-                        .addToBackStack(null)
-                        .commit()
+                    binding.btnPointP1.visibility = TextView.GONE
+                    binding.btnPointP2.visibility = TextView.GONE
+                    binding.btnBack2Menu.visibility = TextView.VISIBLE
+
+                    binding.btnBack2Menu.setOnClickListener{
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.linearLayout, MainMenuFragment())
+                            .addToBackStack(null)
+                            .commit()
+                    }
 
                 } else {
                     if (currentMatch.decidingSet && matchTieBreak){
@@ -186,10 +191,10 @@ class TennisDoublesGameFragment: Fragment() {
                 currentGame = currentSet.getCurrentGame()
                 newPointHistoryGameLayout()
             }
+        } else {
+            createPointView(currentGame.lastPoint, byPlayer)
+            updateServingPlayer()
         }
-
-        createPointView(currentGame.lastPoint, byPlayer)
-        updateServingPlayer()
     }
 
     private fun updateServingPlayer() {
@@ -211,6 +216,21 @@ class TennisDoublesGameFragment: Fragment() {
             binding.tvPointsMe.text = currentGame.p1Points.toString()
             binding.p2Points.text = currentGame.p2Points.toString()
             binding.tvPointsYou.text = currentGame.p2Points.toString()
+        }
+        if (finished){
+            var csl: ColorStateList = binding.p1Name.textColors
+            binding.p1Points.setTextColor(csl)
+            binding.p2Points.setTextColor(csl)
+            binding.tvPointsMe.setTextColor(csl)
+            binding.tvPointsYou.setTextColor(csl)
+
+            if (currentMatch.matchWinner == 1) {
+                binding.p2Points.text = "L"
+                binding.tvPointsYou.text = "L"
+            } else {
+                binding.p1Points.text = "L"
+                binding.tvPointsMe.text = "L"
+            }
         }
     }
 
@@ -300,6 +320,7 @@ class TennisDoublesGameFragment: Fragment() {
         var tv1 = TextView(context)
         tv1.text = "0"
         tv1.textSize = 17F
+        tv1.setTextColor(resources.getColor(R.color.tred))
         tv1.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
         tv1.layoutParams = tvparams
         ll.addView(tv1)
@@ -308,6 +329,7 @@ class TennisDoublesGameFragment: Fragment() {
         var tv2 = TextView(context)
         tv2.text = "0"
         tv2.textSize = 17F
+        tv2.setTextColor(resources.getColor(R.color.tred))
         tv2.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
         tv2.layoutParams = tvparams
         ll.addView(tv2)

@@ -19,7 +19,7 @@
 
         <LinearLayout
             android:id="@+id/game_score_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/scoresheet_background"
@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
-                    android:text="Martin"
+                    android:text="Player 1"
                     android:textSize="17sp"/>
 
                 <TextView
@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
-                    android:text="Laura"
+                    android:text="Player 2"
                     android:textSize="17sp"/>
 
             </LinearLayout>
@@ -133,6 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="0"
+                android:textColor="@color/tred"
                 android:textAlignment="center"
                 android:textSize="17sp" />
 
@@ -142,6 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="0"
+                android:textColor="@color/tred"
                 android:textAlignment="center"
                 android:textSize="17sp" />
         </LinearLayout>
@@ -188,6 +190,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:text="0"
+        android:textColor="@color/tred"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_points_you"
         app:layout_constraintEnd_toStartOf="@+id/tv_colon" />
@@ -246,6 +249,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
         android:text="0"
+        android:textColor="@color/tred"
         android:textSize="34sp"
         app:layout_constraintStart_toEndOf="@+id/tv_colon"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
@@ -270,6 +274,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_pointP1" />
 
+    <Button
+        android:id="@+id/btn_back2Menu"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:text="Back to Menu"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"/>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsv_pointHistory"
