@@ -12,13 +12,15 @@ interface ScoreDao {
     @Update
     suspend fun updateMatch(match: Match)
 
-    suspend fun updateMatch(matchId: Long, finished: Boolean){
+    suspend fun updateMatch(matchId: Long, p1Sets: Int, p2Sets: Int, finished: Boolean){
         var match = getMatchById(matchId)
+        match.p1Sets = p1Sets
+        match.p2Sets = p2Sets
         match.finished = finished
         updateMatch(match)
     }
 
-    @Query("SELECT * FROM matches")
+    @Query("SELECT * FROM matches ORDER BY date DESC")
     suspend fun getAllMatches(): List<Match>
 
     @Query("SELECT * FROM matches WHERE id == :id")

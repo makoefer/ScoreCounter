@@ -13,6 +13,8 @@ data class Match(
 
     @ColumnInfo(name = "Match Type") var type: String,
 
+    @ColumnInfo(name = "Date") var date: String,
+
     @ColumnInfo(name = "Player 1")  var p1name: String,
 
     @ColumnInfo(name = "Player 2") var p2name: String,
@@ -27,10 +29,14 @@ data class Match(
 
     @ColumnInfo(name = "Match Tie Break") var matchTieBreak: Boolean,
 
+    @ColumnInfo(name = "Sets won Player 1") var p1Sets: Int,
+
+    @ColumnInfo(name = "Sets won Player 2") var p2Sets: Int,
+
     @ColumnInfo(name = "finished") var finished: Boolean
 ){
-    constructor(type: String, p1name: String, p2name: String, firstServeP1: Boolean, setsToWin: Int, matchTieBreak: Boolean):
-            this(0, type, p1name, p2name, null, null, firstServeP1, setsToWin, matchTieBreak, false)
-    constructor(type: String, p1name: String, p2name: String, p12name: String, p22name: String, firstServeP1: Boolean, setsToWin: Int, matchTieBreak: Boolean):
-            this(0, type, p1name, p2name, p12name, p22name, firstServeP1, setsToWin, matchTieBreak, false)
+    constructor(type: String, date: String, p1name: String, p2name: String, firstServeP1: Boolean, setsToWin: Int, matchTieBreak: Boolean):
+            this(0, type, date, p1name, p2name, null, null, firstServeP1, setsToWin, matchTieBreak, 0, 0, false)
+    constructor(type: String, date: String, p1name: String, p2name: String, p12name: String, p22name: String, firstServeP1: Boolean, setsToWin: Int, matchTieBreak: Boolean):
+            this(0, type, date, p1name, p2name, p12name, p22name, firstServeP1, setsToWin, matchTieBreak, 0, 0, false)
 }

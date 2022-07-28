@@ -3,6 +3,7 @@ package martin.scorecounter.tennis
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Gravity
@@ -10,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.runBlocking
 import martin.scorecounter.MainActivity
@@ -20,6 +22,8 @@ import martin.scorecounter.database.Match
 import martin.scorecounter.database.Set
 import martin.scorecounter.databinding.FragmentTennisSinglesGameBinding
 import martin.scorecounter.enums.TennisGamePhases
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class TennisSinglesGameFragment: Fragment() {
@@ -52,6 +56,7 @@ class TennisSinglesGameFragment: Fragment() {
 
     var finished = false
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -59,17 +64,6 @@ class TennisSinglesGameFragment: Fragment() {
 
         var p1Name: String? = if (arguments?.getString("p1name") != "") arguments?.getString("p1name") else "Player 1"
         var p2Name: String? = if (arguments?.getString("p2name") != "") arguments?.getString("p2name") else "Player 2"
-
-        binding.p1Name.text = p1Name
-        binding.p2Name.text = p2Name
-        if (p1Name!!.length > 10){
-            p1Name = p1Name.subSequence(0,10).toString() + "."
-        }
-        if (p2Name!!.length > 10){
-            p2Name = p2Name.subSequence(0,10).toString() + "."
-        }
-        binding.p1NameBig.text = p1Name
-        binding.p2NameBig.text = p2Name
 
         firstServeP1 = arguments?.getString("firstServe") == "Player 1"
         setsToWin = arguments?.getString("numberOfSets")?.toInt() ?: 2
@@ -81,6 +75,17 @@ class TennisSinglesGameFragment: Fragment() {
         currentMatch = TMatch("Singles", p1Name!!, p2Name!!, null, null, firstServeP1, setsToWin, matchTieBreak)
         currentSet = currentMatch.newSet()
         currentGame = currentSet.newGame()
+
+        binding.p1Name.text = p1Name
+        binding.p2Name.text = p2Name
+        if (p1Name!!.length > 10){
+            p1Name = p1Name.subSequence(0,10).toString() + "."
+        }
+        if (p2Name!!.length > 10){
+            p2Name = p2Name.subSequence(0,10).toString() + "."
+        }
+        binding.p1NameBig.text = p1Name
+        binding.p2NameBig.text = p2Name
 
         newPointHistoryGameLayout()
         newGameScoreLayout()
@@ -146,7 +151,7 @@ class TennisSinglesGameFragment: Fragment() {
                     finished = true
 
                     runBlocking{
-                        dbUpdateMatch(dbCurrentMatchId, finished)
+                        dbUpdateMatch(dbCurrentMatchId, currentMatch.p1Sets, currentMatch.p2Sets, finished)
                     }
 
                     binding.btnPointP1.visibility = TextView.GONE
@@ -482,8 +487,12 @@ class TennisSinglesGameFragment: Fragment() {
         parent.addView(llh, 0)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private suspend fun dbNewMatch(p1name: String, p2name: String, firstserveP1: Boolean, mtb: Boolean, stw: Int) {
-        dbCurrentMatchId = scoreDao.insertMatch(Match("Tennis-Singles", p1name, p2name, firstserveP1, stw, mtb))
+        val currentDate = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
+        val formattedDate = currentDate.format(formatter)
+        dbCurrentMatchId = scoreDao.insertMatch(Match("Tennis-Singles", formattedDate, p1name, p2name, firstserveP1, stw, mtb))
     }
 
     private suspend fun dbNewSet(curSetNr: Int) {
@@ -498,8 +507,8 @@ class TennisSinglesGameFragment: Fragment() {
         scoreDao.updateSet(dbSetId, p1Games, p2Games, setWinner)
     }
 
-    private suspend fun dbUpdateMatch(dbMatchId: Long, finished: Boolean){
-        scoreDao.updateMatch(dbMatchId, finished)
+    private suspend fun dbUpdateMatch(dbMatchId: Long, p1Sets: Int, p2Sets: Int, finished: Boolean){
+        scoreDao.updateMatch(dbMatchId, p1Sets, p2Sets, finished)
     }
 
     override fun onDestroyView() {
