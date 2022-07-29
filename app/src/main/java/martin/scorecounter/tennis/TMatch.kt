@@ -42,7 +42,6 @@ class TMatch constructor(matchType: String, p1: String, p2: String, p12: String?
                 decidingSet = true
             }
             p1Serving = !p1LastServe
-            newSet()
         }
     }
 

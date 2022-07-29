@@ -33,11 +33,11 @@ class TennisSinglesSettingsFragment: Fragment() {
             bundle.putString("firstServe", (rB2?.text as String?))
             bundle.putBoolean("matchTieBreak", binding.swMatchTieBreak.isChecked)
 
-            val bgf = TennisSinglesGameFragment()
-            bgf.arguments = bundle
+            val tsgf = TennisSinglesGameFragment()
+            tsgf.arguments = bundle
 
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.linearLayout, bgf)
+                .replace(R.id.linearLayout, tsgf)
                 .addToBackStack(null)
                 .commit()
         }

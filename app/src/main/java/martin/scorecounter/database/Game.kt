@@ -29,5 +29,9 @@ data class Game(
 
     var finished: Boolean,
 
+    var currentGamesP1: Int,
+
+    var currentGamesP2: Int,
+
     var set: Long
 )

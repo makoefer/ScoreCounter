@@ -57,8 +57,12 @@ class GameHistoryFragment: Fragment() {
     private fun onListItemClick(position: Int){
         val bundle = Bundle()
         bundle.putLong("match_id", data[position].id)
+
+        val ghdf = GameHistoryDetailsFragment()
+        ghdf.arguments = bundle
+
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.linearLayout, MainMenuFragment())
+            .replace(R.id.linearLayout, ghdf)
             .addToBackStack(null)
             .commit()
     }

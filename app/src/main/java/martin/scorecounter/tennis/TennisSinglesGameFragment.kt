@@ -120,10 +120,10 @@ class TennisSinglesGameFragment: Fragment() {
             runBlocking{
                 if (!currentGame.tiebreak){
                     dbGameWon(currentGameNumber, points[currentGame.p1Points], points[currentGame.p2Points],
-                        currentGame.p1Serving, byPlayer, currentGame.pointHistory.toString(), true, dbCurrentSetId)
+                        currentGame.p1Serving, byPlayer, currentGame.pointHistory.toString(), true, currentSet.p1Games, currentSet.p2Games, dbCurrentSetId)
                 } else {
                     dbGameWon(currentGameNumber, currentGame.p1Points.toString(), currentGame.p2Points.toString(),
-                        currentGame.p1Serving, byPlayer, currentGame.pointHistory.toString(), true, dbCurrentSetId)
+                        currentGame.p1Serving, byPlayer, currentGame.pointHistory.toString(), true, currentSet.p1Games, currentSet.p2Games, dbCurrentSetId)
                 }
                 dbUpdateSet(dbCurrentSetId, currentSet.p1Games, currentSet.p2Games, 0)
             }
@@ -134,7 +134,7 @@ class TennisSinglesGameFragment: Fragment() {
 
             if (currentSet.finished){
                 currentMatch.setWon(byPlayer, currentGame.p1Serving)
-                newPointHistoryDivider(currentSet.setNr.toString())
+                newPointHistoryDivider(currentSetNumber.toString())
 
                 runBlocking {
                     dbUpdateSet(dbCurrentSetId, currentSet.p1Games, currentSet.p2Games, currentSet.setWinner)
@@ -157,6 +157,8 @@ class TennisSinglesGameFragment: Fragment() {
                     binding.btnPointP1.visibility = TextView.GONE
                     binding.btnPointP2.visibility = TextView.GONE
                     binding.btnBack2Menu.visibility = TextView.VISIBLE
+
+                    hideServingPlayer()
 
                     binding.btnBack2Menu.setOnClickListener{
                         requireActivity().supportFragmentManager.beginTransaction()
@@ -189,8 +191,8 @@ class TennisSinglesGameFragment: Fragment() {
             }
         } else {
             createPointView(currentGame.lastPoint, byPlayer)
-            updateServingPlayer()
         }
+        updateServingPlayer()
     }
 
     private fun updateServingPlayer() {
@@ -198,6 +200,13 @@ class TennisSinglesGameFragment: Fragment() {
         binding.p1ServingSymbol1.visibility = if (currentGame.p1Serving) ImageView.VISIBLE else ImageView.INVISIBLE
         binding.p2ServingSymbol.visibility = if (currentGame.p1Serving) ImageView.INVISIBLE else ImageView.VISIBLE
         binding.p2ServingSymbol1.visibility = if (currentGame.p1Serving) ImageView.INVISIBLE else ImageView.VISIBLE
+    }
+
+    private fun hideServingPlayer() {
+        binding.p1ServingSymbol.visibility = ImageView.INVISIBLE
+        binding.p1ServingSymbol1.visibility = ImageView.INVISIBLE
+        binding.p2ServingSymbol.visibility = ImageView.INVISIBLE
+        binding.p2ServingSymbol1.visibility = ImageView.INVISIBLE
     }
 
     private fun updateTextViews() {
@@ -222,11 +231,15 @@ class TennisSinglesGameFragment: Fragment() {
             binding.tvPointsYou.setTextColor(csl)
 
             if (currentMatch.matchWinner == 1) {
+                binding.p1Points.text = "W"
+                binding.tvPointsMe.text = "W"
                 binding.p2Points.text = "L"
                 binding.tvPointsYou.text = "L"
             } else {
                 binding.p1Points.text = "L"
                 binding.tvPointsMe.text = "L"
+                binding.p2Points.text = "W"
+                binding.tvPointsYou.text = "W"
             }
         }
     }
@@ -499,8 +512,8 @@ class TennisSinglesGameFragment: Fragment() {
         dbCurrentSetId = scoreDao.insertSet(Set(curSetNr, dbCurrentMatchId))
     }
 
-    private suspend fun dbGameWon(currentGameNumber: Int, p1Points: String, p2Points: String, p1Serving: Boolean, gameWinner: Int, pointHistory: String, finished: Boolean, setId: Long) {
-        scoreDao.insertGame(Game(0, currentGameNumber, p1Points, p2Points, p1Serving, gameWinner, pointHistory, finished, setId))
+    private suspend fun dbGameWon(currentGameNumber: Int, p1Points: String, p2Points: String, p1Serving: Boolean, gameWinner: Int, pointHistory: String, finished: Boolean, currentGamesP1: Int, currentGamesP2: Int, setId: Long) {
+        scoreDao.insertGame(Game(0, currentGameNumber, p1Points, p2Points, p1Serving, gameWinner, pointHistory, finished, currentGamesP1, currentGamesP2, setId))
     }
 
     private suspend fun dbUpdateSet(dbSetId: Long, p1Games: Int, p2Games: Int, setWinner: Int){
