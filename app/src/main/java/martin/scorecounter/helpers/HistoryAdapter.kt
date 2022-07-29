@@ -1,14 +1,12 @@
-package martin.scorecounter
+package martin.scorecounter.helpers
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import kotlin.coroutines.coroutineContext
+import martin.scorecounter.R
 
 class HistoryAdapter(private val context: Context, private val mList: List<HistoryItemViewModel>, private val onListItemClick: (position: Int) -> Unit) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 

@@ -1,8 +1,7 @@
-package martin.scorecounter
+package martin.scorecounter.tennis
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -11,12 +10,12 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.runBlocking
+import martin.scorecounter.MainActivity
+import martin.scorecounter.R
 import martin.scorecounter.database.Game
 import martin.scorecounter.database.Match
 import martin.scorecounter.database.Set
 import martin.scorecounter.databinding.FragmentGameHistoryDetailsBinding
-import martin.scorecounter.tennis.GameHistoryFragment
-import martin.scorecounter.tennis.TPoint
 
 class GameHistoryDetailsFragment: Fragment() {
 

@@ -62,6 +62,8 @@ class TennisSinglesGameFragment: Fragment() {
 
         _binding = FragmentTennisSinglesGameBinding.inflate(inflater, container, false)
 
+        points = resources.getStringArray(R.array.tennisPoints)
+
         var p1Name: String? = if (arguments?.getString("p1name") != "") arguments?.getString("p1name") else "Player 1"
         var p2Name: String? = if (arguments?.getString("p2name") != "") arguments?.getString("p2name") else "Player 2"
 
@@ -70,7 +72,6 @@ class TennisSinglesGameFragment: Fragment() {
         matchTieBreak = arguments?.getBoolean("matchTieBreak") ?: false
 
         gamePhase = TennisGamePhases.TENNIS_NORMAL_GAME
-        points = resources.getStringArray(R.array.tennisPoints)
 
         currentMatch = TMatch("Singles", p1Name!!, p2Name!!, null, null, firstServeP1, setsToWin, matchTieBreak)
         currentSet = currentMatch.newSet()
