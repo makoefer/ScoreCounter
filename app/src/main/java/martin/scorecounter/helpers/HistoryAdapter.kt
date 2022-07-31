@@ -35,7 +35,7 @@ class HistoryAdapter(private val context: Context, private val mList: List<Histo
         return mList.size
     }
 
-    class ViewHolder(ItemView: View, private val onListItemClick: (position: Int) -> Unit) : RecyclerView.ViewHolder(ItemView) {
+    class ViewHolder(itemView: View, private val onListItemClick: (position: Int) -> Unit) : RecyclerView.ViewHolder(itemView) {
         val p1Name: TextView = itemView.findViewById(R.id.p1_name_history)
         val p2Name: TextView = itemView.findViewById(R.id.p2_name_history)
         val p1Sets: TextView = itemView.findViewById(R.id.p1_sets_history)

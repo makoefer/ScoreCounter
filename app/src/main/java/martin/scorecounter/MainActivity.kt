@@ -31,7 +31,8 @@ class MainActivity : AppCompatActivity() {
                 .replace(R.id.linearLayout, AppInfoFragment())
                 .addToBackStack(null)
                 .commit()}
-            else -> {}
+            else -> { //nothing
+            }
         }
         return super.onOptionsItemSelected(item)
     }
